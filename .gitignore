@@ -1,0 +1,13 @@
+# Python
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+
+# Apps
+finance-analyzer/backend/.env
+finance-analyzer/backend/*.db
+finance-analyzer/frontend/node_modules/
+finance-analyzer/frontend/dist/
+finance-analyzer/frontend/.vite/
