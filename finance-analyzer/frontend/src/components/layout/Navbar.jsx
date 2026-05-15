@@ -2,6 +2,7 @@ import React from 'react'
 import { useLocation } from 'react-router-dom'
 import { Bell, Search, Calendar } from 'lucide-react'
 import { format } from 'date-fns'
+import toast from 'react-hot-toast'
 
 const pageTitles = {
   '/dashboard': { title: 'Dashboard', sub: 'Your financial overview' },
@@ -13,15 +14,29 @@ const pageTitles = {
 export default function Navbar() {
   const location = useLocation()
   const page = pageTitles[location.pathname] || { title: 'FinanceOS', sub: '' }
+  const [showSearch, setShowSearch] = React.useState(false)
+  const [showProfile, setShowProfile] = React.useState(false)
+
+  // Close dropdowns on click outside
+  React.useEffect(() => {
+    const close = () => {
+      setShowProfile(false)
+      setShowSearch(false)
+    }
+    window.addEventListener('click', close)
+    return () => window.removeEventListener('click', close)
+  }, [])
 
   return (
     <header
-      className="flex items-center justify-between px-6 py-4 border-b flex-shrink-0"
+      className="flex items-center justify-between px-6 py-4 border-b flex-shrink-0 relative"
       style={{
         background: 'rgba(13,13,22,0.8)',
         backdropFilter: 'blur(12px)',
         borderColor: 'var(--border)',
+        zIndex: 100,
       }}
+      onClick={e => e.stopPropagation()}
     >
       <div>
         <h1
@@ -43,7 +58,7 @@ export default function Navbar() {
       <div className="flex items-center gap-3">
         {/* Date */}
         <div
-          className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs"
+          className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs"
           style={{
             background: 'var(--bg-card)',
             border: '1px solid var(--border)',
@@ -55,40 +70,70 @@ export default function Navbar() {
           {format(new Date(), 'MMM dd, yyyy')}
         </div>
 
-        {/* Search */}
-        <button
-          className="w-9 h-9 rounded-lg flex items-center justify-center transition-colors"
-          style={{
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border)',
-            color: 'var(--text-muted)',
-          }}
-        >
-          <Search size={15} />
-        </button>
-
-        {/* Notifications */}
-        <button
-          className="w-9 h-9 rounded-lg flex items-center justify-center transition-colors relative"
-          style={{
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border)',
-            color: 'var(--text-muted)',
-          }}
-        >
-          <Bell size={15} />
-          <span
-            className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full"
-            style={{ background: 'var(--accent)' }}
-          />
-        </button>
-
-        {/* Avatar */}
-        <div
-          className="w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold cursor-pointer"
-          style={{ background: 'var(--accent)', color: '#0d0d16', fontFamily: 'Syne, sans-serif' }}
-        >
-          U
+        {/* Avatar & Dropdown */}
+        <div className="relative">
+          <div
+            onClick={(e) => {
+              e.stopPropagation()
+              setShowProfile(!showProfile)
+              setShowSearch(false)
+            }}
+            className="flex items-center gap-2 px-2 py-1 rounded-lg cursor-pointer transition-all hover:bg-white/5 active:scale-95"
+          >
+            <div
+              className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold"
+              style={{ 
+                background: showProfile ? 'var(--text-primary)' : 'var(--accent)', 
+                color: '#0d0d16', 
+                fontFamily: 'Syne, sans-serif',
+                boxShadow: showProfile ? '0 0 15px var(--accent)' : 'none'
+              }}
+            >
+              {localStorage.getItem('username')?.charAt(0).toUpperCase() || 'U'}
+            </div>
+            <span className="hidden sm:block text-sm font-medium" style={{ color: 'var(--text-primary)', fontFamily: 'DM Sans, sans-serif' }}>
+              {localStorage.getItem('username') || 'User'}
+            </span>
+          </div>
+          
+          {showProfile && (
+            <div 
+              className="absolute right-0 mt-2 w-48 rounded-xl border z-50 overflow-hidden animate-fade-in"
+              style={{ 
+                background: 'var(--bg-card)', 
+                borderColor: 'var(--border)',
+                boxShadow: '0 10px 25px -5px rgba(0,0,0,0.4)',
+              }}
+            >
+              <div className="p-3 border-b" style={{ borderColor: 'var(--border)' }}>
+                <p className="text-xs font-mono" style={{ color: 'var(--text-muted)' }}>SIGNED IN AS</p>
+                <p className="text-sm font-bold truncate" style={{ color: 'var(--text-primary)' }}>
+                  {localStorage.getItem('username') || 'User'}
+                </p>
+              </div>
+              <div className="p-1">
+                <button 
+                  className="w-full text-left px-3 py-2 text-xs rounded-lg transition-colors hover:bg-white/5"
+                  style={{ color: 'var(--text-secondary)' }}
+                  onClick={() => toast.error('Profile settings coming soon!')}
+                >
+                  Profile Settings
+                </button>
+                <button 
+                  className="w-full text-left px-3 py-2 text-xs rounded-lg transition-colors hover:bg-red-500/10"
+                  style={{ color: 'var(--coral)' }}
+                  onClick={() => {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('refresh');
+                    localStorage.removeItem('username');
+                    window.location.href = '/login';
+                  }}
+                >
+                  Logout Session
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </header>

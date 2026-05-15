@@ -130,33 +130,45 @@ export default function Dashboard() {
           >
             Quick Insights
           </h3>
-          <InsightCard
-            type="success"
-            title="On Track"
-            description="You're spending 8% less than last month. Keep it up!"
-            badge="GOOD"
-            delay={300}
-          />
-          <InsightCard
-            type="warning"
-            title="Food & Dining"
-            description="This category is 23% above your 3-month average."
-            badge="WATCH"
-            delay={350}
-          />
-          <InsightCard
-            type="ai"
-            title="AI Suggestion"
-            description="Based on your patterns, you could save ₹1000 by reducing entertainment."
-            badge="AI"
-            delay={400}
-          />
-          <InsightCard
-            type="info"
-            title="Upcoming Bills"
-            description="Utilities payment typically due around end of month."
-            delay={450}
-          />
+          
+          {summary && (
+            <>
+              <InsightCard
+                type={summary.month_change <= 0 ? "success" : "warning"}
+                title={summary.month_change <= 0 ? "On Track" : "Spending Up"}
+                description={summary.month_change <= 0 
+                  ? `You're spending ${Math.abs(summary.month_change)}% less than last month. Keep it up!`
+                  : `Your spending is up by ${summary.month_change}% compared to last month.`
+                }
+                badge={summary.month_change <= 0 ? "GOOD" : "WATCH"}
+                delay={300}
+              />
+              
+              {categoryData.length > 0 && (
+                <InsightCard
+                  type="info"
+                  title="Top Category"
+                  description={`Your highest spending is in ${categoryData[0].category}, totaling ₹${categoryData[0].total.toFixed(2)}.`}
+                  badge="TOP"
+                  delay={350}
+                />
+              )}
+
+              <InsightCard
+                type="ai"
+                title="Daily Average"
+                description={`You're averaging ₹${summary.avg_daily} per day this month.`}
+                badge="AI"
+                delay={400}
+              />
+            </>
+          )}
+
+          {!summary && (
+            <div className="p-4 rounded-xl border border-dashed text-center" style={{ borderColor: 'var(--border)' }}>
+              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Loading insights...</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
