@@ -4,12 +4,13 @@ from django.conf import settings
 
 def get_ai_client():
     """Return Google Gemini client."""
-    if hasattr(settings, 'GEMINI_API_KEY') and settings.GEMINI_API_KEY:
+    key = getattr(settings, 'GEMINI_API_KEY', None)
+    if key:
         try:
             import google.generativeai as genai
-            genai.configure(api_key=settings.GEMINI_API_KEY)
+            genai.configure(api_key=key)
             return 'gemini', genai.GenerativeModel('gemini-flash-latest')
-        except ImportError:
+        except Exception:
             pass
     return None, None
 
