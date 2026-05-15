@@ -2,28 +2,25 @@
   "version": 2,
   "builds": [
     {
-      "src": "finance-analyzer/backend/app/wsgi.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "15mb"
-      }
+      "src": "api/index.py",
+      "use": "@vercel/python"
     },
     {
       "src": "finance-analyzer/frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
+      "use": "@vercel/static-build"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "finance-analyzer/backend/app/wsgi.py"
+      "dest": "api/index.py"
+    },
+    {
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
-      "dest": "finance-analyzer/frontend/$1"
+      "dest": "/index.html"
     }
   ]
 }
