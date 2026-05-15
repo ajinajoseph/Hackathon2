@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #0d0d16;
+  --bg-secondary: #1a1a28;
+  --bg-card: #1f1f30;
+  --bg-card-hover: #252538;
+  --border: rgba(255,255,255,0.07);
+  --border-accent: rgba(200,241,53,0.3);
+  --text-primary: #f0f0f4;
+  --text-secondary: #9191a8;
+  --text-muted: #52526d;
+  --accent: #c8f135;
+  --accent-dim: rgba(200,241,53,0.15);
+  --coral: #ff6b6b;
+  --coral-dim: rgba(255,107,107,0.15);
+  --sky: #74b9ff;
+  --sky-dim: rgba(116,185,255,0.15);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
+
+/* Selection */
+::selection { background: var(--accent-dim); color: var(--accent); }
+
+/* Custom utilities */
+@layer utilities {
+  .glass {
+    background: rgba(31, 31, 48, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .border-subtle {
+    border: 1px solid var(--border);
+  }
+  .text-gradient {
+    background: linear-gradient(135deg, #c8f135 0%, #74b9ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .card-hover {
+    transition: all 0.2s ease;
+  }
+  .card-hover:hover {
+    background: var(--bg-card-hover);
+    transform: translateY(-1px);
+  }
+  .animate-stagger-1 { animation-delay: 0.05s; }
+  .animate-stagger-2 { animation-delay: 0.1s; }
+  .animate-stagger-3 { animation-delay: 0.15s; }
+  .animate-stagger-4 { animation-delay: 0.2s; }
+  .animate-stagger-5 { animation-delay: 0.25s; }
+}
+
+/* Input styles */
+input, select, textarea {
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Recharts custom */
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
+  color: var(--text-primary) !important;
+}
