@@ -8,6 +8,7 @@ router.register(r'expenses', ExpenseViewSet, basename='expense')
 
 urlpatterns = [
     path('register/', auth.register, name='register'),
+    path('profile/', auth.get_profile, name='profile'),
     path('', include(router.urls)),
 
     # Analytics

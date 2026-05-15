@@ -33,3 +33,15 @@ def register(request):
             {'detail': str(e)},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_profile(request):
+    user = request.user
+    return Response({
+        'username': user.username,
+        'email': user.email,
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'date_joined': user.date_joined,
+    })

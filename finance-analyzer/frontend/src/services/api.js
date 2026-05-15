@@ -57,6 +57,9 @@ export const login = async (username, password) => {
 
 export const register = (username, password, email = '') => 
   api.post('/register/', { username, password, email }).then(r => r.data)
+  
+export const getProfile = () =>
+  api.get('/profile/').then(r => r.data)
 
 export const logout = () => {
   localStorage.removeItem('token')

@@ -1,5 +1,5 @@
 import React from 'react'
-import { DollarSign, TrendingDown, Calendar, PieChart, ArrowRight } from 'lucide-react'
+import { IndianRupee, TrendingDown, Calendar, PieChart, ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import StatCard from '../components/ui/StatCard'
 import InsightCard from '../components/ui/InsightCard'
@@ -33,7 +33,7 @@ export default function Dashboard() {
           value={summary ? `₹${Number(summary.total_month || 0).toFixed(2)}` : '₹—'}
           change={summary?.month_change}
           changeLabel="vs last month"
-          icon={DollarSign}
+          icon={IndianRupee}
           accent="lime"
           delay={50}
         />

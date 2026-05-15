@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { DollarSign, Tag, FileText, Calendar, Loader2, Plus, Sparkles } from 'lucide-react'
+import { IndianRupee, Tag, FileText, Calendar, Loader2, Plus, Sparkles } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { createExpense, updateExpense } from '../../services/api'
 
@@ -128,7 +128,7 @@ export default function ExpenseForm({ onSuccess, initialData = null, onCancel = 
         {/* Amount */}
         <Field label="Amount (₹)" error={errors.amount}>
           <div className="relative">
-            <DollarSign
+            <IndianRupee
               size={14}
               className="absolute left-3 top-1/2 -translate-y-1/2"
               style={{ color: 'var(--text-muted)' }}
