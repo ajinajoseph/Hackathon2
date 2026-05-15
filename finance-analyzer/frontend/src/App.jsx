@@ -9,6 +9,7 @@ import Analytics from './pages/Analytics'
 import AIInsights from './pages/AIInsights'
 
 import Login from './pages/Login'
+import Register from './pages/Register'
 import { isAuthenticated } from './services/api'
 
 const ProtectedRoute = ({ children }) => {
@@ -35,6 +36,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route
           path="/*"
           element={

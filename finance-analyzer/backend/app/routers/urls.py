@@ -1,12 +1,13 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from app.routers.expenses import ExpenseViewSet
-from app.routers import analytics, insights
+from app.routers import analytics, insights, auth
 
 router = DefaultRouter()
 router.register(r'expenses', ExpenseViewSet, basename='expense')
 
 urlpatterns = [
+    path('register/', auth.register, name='register'),
     path('', include(router.urls)),
 
     # Analytics

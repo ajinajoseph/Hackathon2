@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate, Navigate } from 'react-router-dom'
+import { useNavigate, Navigate, Link } from 'react-router-dom'
 import { LogIn, User, Lock, Loader2, Sparkles } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { login, isAuthenticated } from '../services/api'
@@ -136,7 +136,10 @@ export default function Login() {
 
         <div className="mt-8 text-center pt-6 border-t" style={{ borderColor: 'var(--border)' }}>
           <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-            Single-user deployment. Contact admin for access.
+            Don't have an account?{' '}
+            <Link to="/register" style={{ color: 'var(--accent)', fontWeight: 600 }}>
+              Create Account
+            </Link>
           </p>
         </div>
       </div>

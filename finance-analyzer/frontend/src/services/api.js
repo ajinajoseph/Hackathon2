@@ -54,6 +54,9 @@ export const login = async (username, password) => {
   return data
 }
 
+export const register = (username, password, email = '') => 
+  api.post('/register/', { username, password, email }).then(r => r.data)
+
 export const logout = () => {
   localStorage.removeItem('token')
   localStorage.removeItem('refresh')
