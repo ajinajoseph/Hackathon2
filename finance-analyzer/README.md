@@ -13,7 +13,7 @@ A full-stack personal finance tracker with AI-powered insights, built with **Rea
 | Database | MySQL / SQLite (via PyMySQL) |
 | Auth | JWT (SimpleJWT) |
 | Currency | Indian Rupees (₹) |
-| AI | Anthropic Claude / OpenAI GPT |
+| AI | Google Gemini 1.5 |
 
 ---
 
@@ -159,7 +159,7 @@ python manage.py migrate
 Add at least one key to `.env`:
 
 ```env
-OPENAI_API_KEY=sk-...
+GEMINI_API_KEY=AIza...
 ANTHROPIC_API_KEY=sk-ant-...
 ```
 
@@ -209,5 +209,5 @@ npm run build
 | `DB_USER` | `root` | MySQL user |
 | `DB_PASSWORD` | _(empty)_ | MySQL password |
 | `DB_HOST` | `127.0.0.1` | MySQL host |
-| `OPENAI_API_KEY` | _(empty)_ | OpenAI API key |
+| `GEMINI_API_KEY` | _(empty)_ | Google Gemini API key |
 | `ANTHROPIC_API_KEY` | _(empty)_ | Anthropic API key |

@@ -89,7 +89,7 @@ export default function AIInsights() {
               <p className="text-sm font-semibold" style={{ fontFamily: 'Syne, sans-serif', color: 'var(--text-primary)' }}>
                 AI Financial Advisor
               </p>
-              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Powered by Claude / OpenAI</p>
+              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Powered by Google Gemini</p>
             </div>
             <div
               className="ml-auto flex items-center gap-1.5 text-xs px-2 py-1 rounded-full"
@@ -253,7 +253,7 @@ export default function AIInsights() {
           ) : (
             <div className="space-y-3">
               <InsightCard type="ai" title="Add more expenses" description="Add at least 5 expenses to get personalized AI insights." badge="START" delay={0} />
-              <InsightCard type="info" title="Connect API key" description="Set OPENAI_API_KEY or ANTHROPIC_API_KEY in backend .env to enable AI features." delay={50} />
+              <InsightCard type="info" title="Connect API key" description="Set GEMINI_API_KEY in backend .env to enable AI features." delay={50} />
             </div>
           )}
         </div>

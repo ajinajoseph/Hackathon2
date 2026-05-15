@@ -3,21 +3,14 @@ from django.conf import settings
 
 
 def get_ai_client():
-    """Return available AI client (Anthropic preferred, then OpenAI)."""
-    if settings.ANTHROPIC_API_KEY:
+    """Return Google Gemini client."""
+    if hasattr(settings, 'GEMINI_API_KEY') and settings.GEMINI_API_KEY:
         try:
-            import anthropic
-            return 'anthropic', anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
+            import google.generativeai as genai
+            genai.configure(api_key=settings.GEMINI_API_KEY)
+            return 'gemini', genai.GenerativeModel('gemini-flash-latest')
         except ImportError:
             pass
-
-    if settings.OPENAI_API_KEY:
-        try:
-            import openai
-            return 'openai', openai.OpenAI(api_key=settings.OPENAI_API_KEY)
-        except ImportError:
-            pass
-
     return None, None
 
 
@@ -46,20 +39,11 @@ Return ONLY a JSON array with objects having these fields:
 Return only the JSON array, no markdown, no explanation."""
 
     try:
-        if provider == 'anthropic':
-            response = client.messages.create(
-                model='claude-3-haiku-20240307',
-                max_tokens=1000,
-                messages=[{'role': 'user', 'content': prompt}]
-            )
-            content = response.content[0].text
+        if provider == 'gemini':
+            response = client.generate_content(prompt)
+            content = response.text
         else:
-            response = client.chat.completions.create(
-                model='gpt-3.5-turbo',
-                messages=[{'role': 'user', 'content': prompt}],
-                max_tokens=1000,
-            )
-            content = response.choices[0].message.content
+            return _rule_based_insights(expense_data)
 
         import json
         # Strip markdown if present
@@ -77,7 +61,7 @@ def chat_with_ai(message: str, context: dict) -> str:
     """Chat with AI about finances."""
     provider, client = get_ai_client()
     if not client:
-        return "AI service is not configured. Please add OPENAI_API_KEY or ANTHROPIC_API_KEY to your .env file."
+        return "AI service is not configured. Please add GEMINI_API_KEY to your .env file."
 
     system = """You are FinanceOS AI, a helpful personal finance advisor. 
 You have access to the user's spending data. All amounts are in Indian Rupees (₹).
@@ -88,24 +72,12 @@ Be concise, specific, and actionable. Keep responses under 200 words. Use number
         context_str = f"\n\nUser's financial context:\n{_format_context(context)}"
 
     try:
-        if provider == 'anthropic':
-            response = client.messages.create(
-                model='claude-3-haiku-20240307',
-                max_tokens=500,
-                system=system,
-                messages=[{'role': 'user', 'content': message + context_str}]
-            )
-            return response.content[0].text
+        if provider == 'gemini':
+            chat_session = client.start_chat(history=[])
+            response = chat_session.send_message(f"{system}\n\n{message + context_str}")
+            return response.text
         else:
-            response = client.chat.completions.create(
-                model='gpt-3.5-turbo',
-                messages=[
-                    {'role': 'system', 'content': system + context_str},
-                    {'role': 'user', 'content': message},
-                ],
-                max_tokens=500,
-            )
-            return response.choices[0].message.content
+            return "Gemini AI is not configured. Please add GEMINI_API_KEY to your .env file."
 
     except Exception as e:
         return f"I encountered an error: {str(e)}. Please try again."
@@ -170,7 +142,7 @@ def _rule_based_insights(data):
     insights.append({
         'type': 'ai',
         'title': 'Configure AI',
-        'description': 'Add OPENAI_API_KEY or ANTHROPIC_API_KEY to .env for personalized AI insights.',
+        'description': 'Add GEMINI_API_KEY to .env for personalized AI insights.',
         'badge': 'TIP',
     })
 

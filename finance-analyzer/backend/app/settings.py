@@ -148,5 +148,4 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ── AI Keys ──────────────────────────────────────────────────
-OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY', '')
-ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
