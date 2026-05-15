@@ -51,6 +51,7 @@ export const login = async (username, password) => {
   const { data } = await api.post('/token/', { username, password })
   localStorage.setItem('token', data.access)
   localStorage.setItem('refresh', data.refresh)
+  localStorage.setItem('username', username)
   return data
 }
 

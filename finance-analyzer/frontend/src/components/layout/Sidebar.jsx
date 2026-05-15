@@ -83,19 +83,6 @@ export default function Sidebar() {
           )
         })}
 
-        <button
-          onClick={logout}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-150 group mt-4"
-          style={{
-            background: 'transparent',
-            color: 'var(--coral)',
-            border: 'none',
-            cursor: 'pointer',
-          }}
-        >
-          <LogOut size={17} style={{ color: 'var(--coral)' }} />
-          <span style={{ fontFamily: 'DM Sans, sans-serif' }}>Logout</span>
-        </button>
       </nav>
 
       {/* Footer */}
