@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "experimentalServices": {
+    "frontend": {
+      "entrypoint": "finance-analyzer/frontend",
+      "routePrefix": "/"
+    },
+    "backend": {
+      "entrypoint": "finance-analyzer/backend",
+      "routePrefix": "/api"
+    }
+  }
+}
