@@ -11,9 +11,7 @@ def register(request):
     password = request.data.get('password')
     email = request.data.get('email', '')
 
-    print(f"DEBUG: Registering user: {username}, email: {email}")
     if not username or not password:
-        print("DEBUG: Missing username or password")
         return Response(
             {'detail': 'Username and password are required'},
             status=status.HTTP_400_BAD_REQUEST
@@ -26,7 +24,6 @@ def register(request):
             status=status.HTTP_201_CREATED
         )
     except IntegrityError:
-        print(f"DEBUG: Username {username} already exists")
         return Response(
             {'detail': 'Username already exists'},
             status=status.HTTP_400_BAD_REQUEST
